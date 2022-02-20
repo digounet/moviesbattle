@@ -1,0 +1,2 @@
+INSERT INTO User (username, password) VALUES ('pablo', '$2a$10$nDnCKE0d1IX..6sJYZQcv.S0Jart.i5IGC1HaojA4d/Isrt8M87Tm');
+INSERT INTO User (username, password) VALUES ('teste', '$2a$10$or4zNN2quVjD1dffWRa6Puyz3YXnOmw/gq5kbN/5b9XhQxeFRJpVu');

@@ -1,5 +1,6 @@
 package com.letscode.pablo.moviesbattle.entrypoint.controller;
 
+import com.letscode.pablo.moviesbattle.entity.User;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserLoginResponse;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserRegisterResponse;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserRequest;
@@ -29,7 +30,7 @@ public class AuthController {
     private UserService authenticationService;
 
     @PostMapping(path = HttpResourcesPaths.AUTH_RESOURCE)
-    public ResponseEntity<UserLoginResponse> createAuthenticationToken(@RequestBody @Validated UserRequest authenticationRequest) throws Exception {
+    public ResponseEntity<UserLoginResponse> createAuthenticationToken(@RequestBody @Validated UserRequest authenticationRequest) {
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         var authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -40,13 +41,19 @@ public class AuthController {
     }
 
     @PostMapping(path = HttpResourcesPaths.REGISTER_RESOURCE)
-    public ResponseEntity<UserRegisterResponse> register(@RequestBody @Validated UserRequest registerRequest) throws UserAlreadyExistsException {
-        var savedUser = authenticationService.register(registerRequest.getUsername(), registerRequest.getPassword());
-        var response = UserRegisterResponse.builder()
-                .username(savedUser.getUsername())
-                .id(savedUser.getId())
-                .build();
+    public ResponseEntity<?> register(@RequestBody @Validated UserRequest registerRequest) {
+        try {
+            var savedUser = authenticationService.register(registerRequest.getUsername(), registerRequest.getPassword());
+            var response = UserRegisterResponse.builder()
+                    .username(savedUser.getUsername())
+                    .id(savedUser.getId())
+                    .build();
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Username already exists!");
+        }
     }
 }

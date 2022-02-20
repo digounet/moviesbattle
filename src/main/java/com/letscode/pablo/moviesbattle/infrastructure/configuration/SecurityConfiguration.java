@@ -2,6 +2,7 @@ package com.letscode.pablo.moviesbattle.infrastructure.configuration;
 
 import com.letscode.pablo.moviesbattle.dataprovider.UserRepository;
 import com.letscode.pablo.moviesbattle.infrastructure.constants.HttpResourcesPaths;
+import com.letscode.pablo.moviesbattle.infrastructure.filter.JwtRequestFilter;
 import com.letscode.pablo.moviesbattle.service.UserService;
 import com.letscode.pablo.moviesbattle.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new TokenAuthenticationFilter(tokenService, repository), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new JwtRequestFilter(tokenService, repository), UsernamePasswordAuthenticationFilter.class);
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
@@ -63,6 +63,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //Configuration for static resources
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
     }
 }

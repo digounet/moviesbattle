@@ -1,6 +1,5 @@
 package com.letscode.pablo.moviesbattle.entrypoint.controller;
 
-import com.letscode.pablo.moviesbattle.entity.User;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserLoginResponse;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserRegisterResponse;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.UserRequest;
@@ -27,10 +26,10 @@ public class AuthController {
     private TokenService tokenService;
 
     @Autowired
-    private UserService authenticationService;
+    private UserService userService;
 
     @PostMapping(path = HttpResourcesPaths.AUTH_RESOURCE)
-    public ResponseEntity<UserLoginResponse> createAuthenticationToken(@RequestBody @Validated UserRequest authenticationRequest) {
+    public ResponseEntity<UserLoginResponse> authenticate(@RequestBody @Validated UserRequest authenticationRequest) {
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         var authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -43,7 +42,7 @@ public class AuthController {
     @PostMapping(path = HttpResourcesPaths.REGISTER_RESOURCE)
     public ResponseEntity<?> register(@RequestBody @Validated UserRequest registerRequest) {
         try {
-            var savedUser = authenticationService.register(registerRequest.getUsername(), registerRequest.getPassword());
+            var savedUser = userService.register(registerRequest.getUsername(), registerRequest.getPassword());
             var response = UserRegisterResponse.builder()
                     .username(savedUser.getUsername())
                     .id(savedUser.getId())

@@ -21,13 +21,17 @@ public class TokenService {
 
     public String generateToken(Authentication authentication) {
 
-        User usuario = (User) authentication.getPrincipal();
+        var usuario = (User) authentication.getPrincipal();
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + Long.parseLong(expiration));
 
-        return Jwts.builder().setIssuer("IRS").setSubject(usuario.getId().toString()).setIssuedAt(new Date())
-                .setExpiration(exp).signWith(SignatureAlgorithm.HS256, secret).compact();
+        return Jwts.builder()
+                .setIssuer("IRS")
+                .setSubject(usuario.getId().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(exp)
+                .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
 
     public boolean isTokenValid(String token) {

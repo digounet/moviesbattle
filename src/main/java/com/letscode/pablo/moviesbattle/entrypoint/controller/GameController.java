@@ -4,13 +4,11 @@ import com.letscode.pablo.moviesbattle.infrastructure.constants.HttpResourcesPat
 import com.letscode.pablo.moviesbattle.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GameController {
+public class GameController extends BaseController {
 
     @Autowired
     TokenService tokenService;
@@ -20,14 +18,5 @@ public class GameController {
         var usernamed = getLoggedUsername();
 
         return ResponseEntity.ok("Olá " + usernamed);
-    }
-
-    public static String getLoggedUsername() {
-        String username = null;
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            username = ((UserDetails)authentication.getPrincipal()).getUsername();
-        }
-        return username;
     }
 }

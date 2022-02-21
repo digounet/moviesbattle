@@ -4,12 +4,12 @@ import com.letscode.pablo.moviesbattle.dataprovider.MovieRepository;
 import com.letscode.pablo.moviesbattle.entity.Movie;
 import com.letscode.pablo.moviesbattle.entrypoint.entity.MovieResponse;
 import com.letscode.pablo.moviesbattle.infrastructure.constants.HttpResourcesPaths;
+import com.letscode.pablo.moviesbattle.infrastructure.exception.MovieNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -27,37 +27,28 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    private Movie getMovieById(String id) {
+    @Autowired
+    RestTemplate restTemplate;
+
+
+    public Movie getMovieById(String id) throws MovieNotFoundException {
         var movie = movieRepository.findById(id);
 
         if (movie.isEmpty()) {
             var uri = String.format(HttpResourcesPaths.MOVIE_API_RESOURCE, id, apiKey);
-            RestTemplate restTemplate = new RestTemplate();
             var movieResponse = restTemplate.getForObject(uri, MovieResponse.class);
 
             if (movieResponse != null) {
                 return movieRepository.save(new Movie(id, movieResponse.getTitle(), movieResponse.getImdbRating(), movieResponse.getImdbVotes()));
             } else {
-                return null;
+                throw new MovieNotFoundException("Movie not found");
             }
         }
 
         return movie.get();
     }
 
-
-    public List<Movie> getRandomMoviesPair() {
-        var response = new ArrayList<Movie>();
-
-        var movieIds = pickNRandomElements();
-
-        response.add(getMovieById(movieIds.get(0)));
-        response.add(getMovieById(movieIds.get(1)));
-
-        return response;
-    }
-
-    private List<String> pickNRandomElements() {
+    public List<String> pickNRandomElements() {
         return pickNRandomElements(moviesIds, ThreadLocalRandom.current());
     }
 

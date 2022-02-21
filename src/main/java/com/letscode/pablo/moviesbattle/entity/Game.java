@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,5 +28,5 @@ public class Game {
     private Integer score;
 
     @OneToMany(mappedBy = "game")
-    private Set<GameMovie> movieList;
+    private List<GameMovie> movieList;
 }

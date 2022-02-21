@@ -23,6 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"};
+
     @Autowired
     private UserService authenticationService;
 
@@ -52,6 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(HttpMethod.POST, HttpResourcesPaths.AUTH_RESOURCE + "/**").permitAll().and()
                 .authorizeRequests().antMatchers(HttpMethod.POST, HttpResourcesPaths.REGISTER_RESOURCE + "/**").permitAll().and()
                 .authorizeRequests().antMatchers("/h2console/**").permitAll().and()
+                .authorizeRequests().antMatchers("/swagger-ui/**").permitAll().and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -64,5 +78,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     //Configuration for static resources
     @Override
     public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(AUTH_WHITELIST);
     }
 }

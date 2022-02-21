@@ -7,6 +7,10 @@ import com.letscode.pablo.moviesbattle.infrastructure.constants.HttpResourcesPat
 import com.letscode.pablo.moviesbattle.infrastructure.exception.UserAlreadyExistsException;
 import com.letscode.pablo.moviesbattle.service.TokenService;
 import com.letscode.pablo.moviesbattle.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Api(value = "Authentication")
 public class AuthController {
 
     @Autowired
@@ -28,6 +33,12 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "Authenticate the user and returns a bearer token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User authenticated"),
+            @ApiResponse(code = 403, message = "Login failed"),
+            @ApiResponse(code = 500, message = "Generic exception")
+    })
     @PostMapping(path = HttpResourcesPaths.AUTH_RESOURCE)
     public ResponseEntity<UserLoginResponse> authenticate(@RequestBody @Validated UserRequest authenticationRequest) {
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -39,6 +50,12 @@ public class AuthController {
         return ResponseEntity.ok(UserLoginResponse.builder().type("Bearer").token(token).build());
     }
 
+    @ApiOperation(value = "Register a new gamer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User registered"),
+            @ApiResponse(code = 403, message = "Authorization failed"),
+            @ApiResponse(code = 500, message = "Username already in use")
+    })
     @PostMapping(path = HttpResourcesPaths.REGISTER_RESOURCE)
     public ResponseEntity<?> register(@RequestBody @Validated UserRequest registerRequest) {
         try {

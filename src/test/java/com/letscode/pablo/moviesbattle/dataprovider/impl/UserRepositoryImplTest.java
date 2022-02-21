@@ -9,8 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -35,5 +36,37 @@ class UserRepositoryImplTest {
         assertNotNull(savedUser);
         assertEquals(user.getUsername(), savedUser.getUsername());
         assertEquals(user.getPassword(), savedUser.getPassword());
+    }
+
+    @Test
+    void testFindById() {
+        var user = new User();
+        user.setUsername("teste");
+        user.setPassword("123456");
+
+        when(userRepositoryJpa.findById(Mockito.any())).thenReturn(Optional.of(user));
+
+        var userResponse = userRepository.findById(user.getId());
+
+        assertNotNull(userResponse);
+        assertTrue(userResponse.isPresent());
+        assertEquals(user.getUsername(), userResponse.get().getUsername());
+
+    }
+
+    @Test
+    void testFindByUserName() {
+        var user = new User();
+        user.setUsername("teste");
+        user.setPassword("123456");
+
+        when(userRepositoryJpa.getByUsername(Mockito.any())).thenReturn(Optional.of(user));
+
+        var userResponse = userRepository.findByUsername(user.getUsername());
+
+        assertNotNull(userResponse);
+        assertTrue(userResponse.isPresent());
+        assertEquals(user.getUsername(), userResponse.get().getUsername());
+
     }
 }

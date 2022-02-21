@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
@@ -84,9 +83,11 @@ class MovieServiceTest {
     }
 
     @Test
-    @Repeat(value = 10)
-    void testGetRandomMovies() {
-        var movies = movieService.pickNRandomElements();
+    void testGetGameMovieList() {
+        var movie = new Movie();
+        when(movieRepository.findById(any())).thenReturn(Optional.of(movie));
+
+        var movies = movieService.getRandomMoviesPairs();
 
         assertEquals(6, movies.size());
     }

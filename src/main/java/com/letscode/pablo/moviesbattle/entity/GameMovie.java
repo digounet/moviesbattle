@@ -1,5 +1,6 @@
 package com.letscode.pablo.moviesbattle.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,15 +12,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "GameMovie", uniqueConstraints={
-        @UniqueConstraint(columnNames = {"movieA", "movieB"})
+        @UniqueConstraint(columnNames = {"gameId", "movieA", "movieB"})
 })
 public class GameMovie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="gameId", nullable=false)
+    @JoinColumn(name="gameId")
     private Game game;
 
     private String movieA;

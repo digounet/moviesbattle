@@ -29,6 +29,6 @@ public class Game {
 
     private Integer mistakes;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade=CascadeType.ALL)
     private List<GameMovie> movieList;
 }

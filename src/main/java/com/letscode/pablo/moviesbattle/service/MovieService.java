@@ -45,7 +45,7 @@ public class MovieService {
         return movie.get();
     }
 
-    public List<Set<String>> pickNRandomElements() {
+    public List<Set<String>> getRandomMoviesPairs() {
         var response = new ArrayList<Set<String>>();
 
         Collections.shuffle(moviesIds);
@@ -53,7 +53,7 @@ public class MovieService {
         var interation = 1;
         for (int i = 0; i < moviesIds.size(); i++) {
             for (int j = interation; j < moviesIds.size(); j++) {
-                var moviePair = new TreeSet<String>();
+                var moviePair = new HashSet<String>();
                 moviePair.add(moviesIds.get(i));
                 moviePair.add(moviesIds.get(j));
 

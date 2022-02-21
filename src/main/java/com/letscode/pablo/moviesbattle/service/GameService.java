@@ -24,9 +24,8 @@ public class GameService {
         var currentGame = gameRepository.getActiveGame(userId);
 
         if (currentGame.isEmpty()) {
-            var movies = movieService.pickNRandomElements();
-
-            return gameRepository.startGame(userId);
+            var movies = movieService.getRandomMoviesPairs();
+            return gameRepository.startGame(userId, movies);
         } else {
             throw new GameAlreadyStartedException("The user has an active game. Please finish the current game");
         }

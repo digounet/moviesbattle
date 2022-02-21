@@ -4,8 +4,6 @@ API desenvolvida em SpringBoot
 
 ### **Endpoints "abertos"** ###
 
-**Todos os endpoints do jogo requerem que o usuário esteja autenticado. Passar o token no header**
-
 - __Autenticação (POST): `http://localhost:8080/auth`.
 - Request: ``
 {

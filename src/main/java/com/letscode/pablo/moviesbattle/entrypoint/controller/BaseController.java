@@ -1,15 +1,15 @@
 package com.letscode.pablo.moviesbattle.entrypoint.controller;
 
+import com.letscode.pablo.moviesbattle.entity.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class BaseController {
-    protected String getLoggedUsername() {
-        String username = null;
+
+    protected int getLoggedUserId() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            username = ((UserDetails)authentication.getPrincipal()).getUsername();
+            return ((User)authentication.getPrincipal()).getId();
         }
-        return username;
+        return 0;
     }
 }

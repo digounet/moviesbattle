@@ -2,7 +2,7 @@
 
 API desenvolvida em SpringBoot
 
-### **Endpoints** ###
+### **Endpoints "abertos"** ###
 
 **Todos os endpoints do jogo requerem que o usuário esteja autenticado. Passar o token no header**
 
@@ -13,6 +13,13 @@ API desenvolvida em SpringBoot
   "password": "123456"
   }
 ``
+- __swagger: `http://localhost:8080/swagger-ui/index.html`
+- __h2console: `http://localhost:8080/h2console/`
+
+### **Endpoints com autenticação** ###
+
+**Todos estes endpoints requerem que o usuário esteja autenticado. Passar o token no header**
+
 - Response: Bearer token
 - __Novo jogo (GET): `http://localhost:8080/startgame`.
 - Response: JSON contendo detalhes do jogo
@@ -25,4 +32,4 @@ API desenvolvida em SpringBoot
 - Response: JSON contendo detalhes do jogo
 - __End Game (GET): `http://localhost:8080/ranking`.
 - Response: JSON com os melhores 10 jpgadores
--
+- 

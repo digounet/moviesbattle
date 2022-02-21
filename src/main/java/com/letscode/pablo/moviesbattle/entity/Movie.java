@@ -24,5 +24,14 @@ public class Movie implements Serializable {
 
         private double imdbRating;
 
-        private double imdbVotes;
+        private int imdbVotes;
+
+        public boolean isSelectedTheWinner(String movieId, Movie movieToCompare) {
+                var currentScore = imdbRating * imdbVotes;
+                var targetScore = movieToCompare.getImdbRating() * movieToCompare.getImdbVotes();
+
+                if ((currentScore >= targetScore) && (this.id.equals(movieId))) {
+                        return true;
+                } else return movieToCompare.id.equals(movieId);
+        }
 }

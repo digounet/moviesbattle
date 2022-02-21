@@ -80,7 +80,7 @@ class AuthControllerTest {
                 .password("123456")
                 .build();
 
-        when(userService.register(any(), any())).thenReturn(new User(1, "pablo", "12345"));
+        when(userService.register(any(), any())).thenReturn(new User(1, "pablo", "12345", 1, 2 ,3 ));
 
         var response = mvc.perform(MockMvcRequestBuilders.post(HttpResourcesPaths.REGISTER_RESOURCE)
                         .contentType(MediaType.APPLICATION_JSON)

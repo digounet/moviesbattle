@@ -27,6 +27,4 @@ public class GameMovie {
     private String movieA;
 
     private String movieB;
-
-    private Integer userScore;
 }

@@ -29,7 +29,6 @@ public class GameRepositoryImpl implements GameRepository {
 
             var gameMovie = new GameMovie();
             gameMovie.setGame(game);
-            gameMovie.setUserScore(0);
             gameMovie.setMovieA(moviePair.get(0));
             gameMovie.setMovieB(moviePair.get(1));
             game.getMovieList().add(gameMovie);
@@ -47,5 +46,10 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public Optional<Game> getActiveGame(int userId) {
         return gameRepository.getByUserIdAndEndDateIsNull(userId);
+    }
+
+    @Override
+    public void update(Game game) {
+        gameRepository.save(game);
     }
 }

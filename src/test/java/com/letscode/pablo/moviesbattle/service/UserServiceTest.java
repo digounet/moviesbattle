@@ -29,7 +29,7 @@ class UserServiceTest {
     @Test
     void loadUserByUsernameFound() {
 
-        var user = new User(1, "pablo", "1234556");
+        var user = new User(1, "pablo", "1234556", 1, 2 , 3);
 
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
 
@@ -52,7 +52,7 @@ class UserServiceTest {
 
     @Test
     void registerSuccess() throws UserAlreadyExistsException {
-        var userToSave = new User(1, "pablo", "sfasdfasda");
+        var userToSave = new User(1, "pablo", "sfasdfasda", 1, 2 , 3);
         when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
         when(userRepository.save(any())).thenReturn(userToSave);
 
@@ -64,7 +64,7 @@ class UserServiceTest {
 
     @Test
     void registerAlreadyExists()  {
-        var userToSave = new User(1, "pablo", "sfasdfasda");
+        var userToSave = new User(1, "pablo", "sfasdfasda", 1, 2 , 3);
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(userToSave));
         when(userRepository.save(any())).thenReturn(userToSave);
 

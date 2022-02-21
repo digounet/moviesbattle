@@ -14,13 +14,16 @@ class UserTest {
     private final int userId = 1;
     private final String username = "pablo";
     private final String password = "123456";
+    private final int games = 10;
+    private final int hits = 9;
+    private final int mistakes = 8;
     private final List<String> authorities = new ArrayList<>();
 
     private User user;
 
     @BeforeEach
     void setUp() {
-        user = new User(userId, username, password);
+        user = new User(userId, username, password, games, hits, mistakes);
     }
 
     @Test
@@ -36,6 +39,21 @@ class UserTest {
     @Test
     void getUsername() {
         assertEquals(username, user.getUsername());
+    }
+
+    @Test
+    void getTotalHits() {
+        assertEquals(hits, user.getTotalHits());
+    }
+
+    @Test
+    void getTotalGames() {
+        assertEquals(games, user.getTotalGames());
+    }
+
+    @Test
+    void getTotalMistakes() {
+        assertEquals(mistakes, user.getTotalMistakes());
     }
 
     @Test
@@ -82,5 +100,26 @@ class UserTest {
         var newPassword = "fgsdfgdfgsdgfsdfgsd";
         user.setPassword(newPassword);
         assertEquals(newPassword, user.getPassword());
+    }
+
+    @Test
+    void setTotalMistakes() {
+        var change = 1;
+        user.setTotalMistakes(change);
+        assertEquals(change, user.getTotalMistakes());
+    }
+
+    @Test
+    void setTotalHits() {
+        var change = 1;
+        user.setTotalHits(change);
+        assertEquals(change, user.getTotalHits());
+    }
+
+    @Test
+    void setTotalGames() {
+        var change = 1;
+        user.setTotalGames(change);
+        assertEquals(change, user.getTotalGames());
     }
 }

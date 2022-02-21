@@ -18,7 +18,7 @@ class TokenServiceTest {
 
     @Test
     void testGenerateToken() {
-        var user = new User(1, "pablo", "12334546");
+        var user = new User(1, "pablo", "12334546", 1, 2 ,3);
         var authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 
         var token = tokenService.generateToken(authentication);

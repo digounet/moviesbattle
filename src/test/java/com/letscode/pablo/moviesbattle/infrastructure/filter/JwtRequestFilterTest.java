@@ -37,7 +37,7 @@ class JwtRequestFilterTest {
 
     @Test
     void testDoInternalFilterValidToken() throws ServletException, IOException {
-        var user = new User(1, "pablo", "123456");
+        var user = new User(1, "pablo", "123456", 1, 2 , 3);
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);

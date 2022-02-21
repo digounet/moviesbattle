@@ -10,4 +10,5 @@ public interface GameRepository {
     Game startGame(int userId, List<Set<String>> movies);
     Game endGame(Game game);
     Optional<Game> getActiveGame(int userId);
+    void update(Game game);
 }

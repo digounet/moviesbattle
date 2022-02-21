@@ -10,13 +10,12 @@ class GameMovieTest {
     private final int ID = 2312;
     private final String MOVIEA = "ASDF";
     private final String MOVIEB = "LKJHG";
-    private final int SCORE = 1;
 
     private GameMovie gameMovie;
 
     @BeforeEach
     void setUp() {
-        gameMovie = new GameMovie(ID, null, MOVIEA, MOVIEB, SCORE);
+        gameMovie = new GameMovie(ID, null, MOVIEA, MOVIEB);
     }
 
     @Test
@@ -37,11 +36,6 @@ class GameMovieTest {
     @Test
     void getMovieB() {
         assertEquals(MOVIEB, gameMovie.getMovieB());
-    }
-
-    @Test
-    void getUserScore() {
-        assertEquals(SCORE, gameMovie.getUserScore());
     }
 
     @Test
@@ -73,21 +67,14 @@ class GameMovieTest {
     }
 
     @Test
-    void setUserScore() {
-        var change = 0;
-        gameMovie.setUserScore(change);
-        assertEquals(change, gameMovie.getUserScore());
-    }
-
-    @Test
     void testEquals() {
-        var movieGame2 = new GameMovie(ID, null, MOVIEA, MOVIEB, SCORE);
+        var movieGame2 = new GameMovie(ID, null, MOVIEA, MOVIEB);
         assertEquals(gameMovie, movieGame2);
     }
 
     @Test
     void testNotEquals() {
-        var movieGame2 = new GameMovie(987, null, MOVIEA, MOVIEB, SCORE);
+        var movieGame2 = new GameMovie(987, null, MOVIEA, MOVIEB);
         assertNotEquals(gameMovie, movieGame2);
     }
 }

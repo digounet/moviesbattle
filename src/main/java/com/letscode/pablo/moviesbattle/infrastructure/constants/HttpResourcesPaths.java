@@ -8,4 +8,7 @@ public interface HttpResourcesPaths {
 
     String MOVIE_API_RESOURCE = "http://www.omdbapi.com/?i=%s&apikey=%s";
 
+    String QUIZZ_RESOURCE = "/quizz";
+    String QUIZZ_RESPONSE_RESOURCE = "/quizz/response";
+    String GAME_RANKING_RESOURCE = "/ranking";
 }

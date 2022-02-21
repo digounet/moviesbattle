@@ -19,9 +19,6 @@ import java.util.Collection;
         @UniqueConstraint(columnNames = "username")
 })
 public class User implements UserDetails {
-
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,6 +26,10 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
+
+    private Integer totalGames;
+    private Integer totalHits;
+    private Integer totalMistakes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

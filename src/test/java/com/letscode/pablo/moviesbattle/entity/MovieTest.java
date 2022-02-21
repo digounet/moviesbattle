@@ -10,7 +10,7 @@ class MovieTest {
     private final String id = "12345";
     private final String title = "Matrix";
     private final double rating = 1.5;
-    private final double votes = 8;
+    private final int votes = 8;
     private Movie movie;
 
     @BeforeEach
@@ -61,7 +61,7 @@ class MovieTest {
 
     @Test
     void setImdbVotes() {
-        var newVoote = 1344.66;
+        var newVoote = 343224;
         movie.setImdbVotes(newVoote);
         assertEquals(newVoote, movie.getImdbVotes());
     }

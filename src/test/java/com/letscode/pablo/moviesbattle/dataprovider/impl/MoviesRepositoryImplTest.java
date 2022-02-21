@@ -24,7 +24,7 @@ class MoviesRepositoryImplTest {
 
     @Test
     void testSaveSuccess() {
-        var movie = new Movie("asdasd", "Matrix", 1.8, 5677.88);
+        var movie = new Movie("asdasd", "Matrix", 1.8, 233);
 
         when(movieRepositoryJpa.save(Mockito.any())).thenReturn(movie);
 
@@ -36,7 +36,7 @@ class MoviesRepositoryImplTest {
 
     @Test
     void testFindById() {
-        var movie = new Movie("asdasd", "Matrix", 1.8, 5677.88);
+        var movie = new Movie("asdasd", "Matrix", 1.8, 5677);
 
         when(movieRepositoryJpa.findById(Mockito.any())).thenReturn(Optional.of(movie));
 

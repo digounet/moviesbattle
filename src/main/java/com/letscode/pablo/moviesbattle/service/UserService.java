@@ -49,7 +49,13 @@ public class UserService implements UserDetailsService {
         int RANKING_SIZE = 10;
         var ranking = userRepository.loadRanking(RANKING_SIZE);
 
-        return ranking.stream().map(u -> new RankingResponse(u.getUsername(), u.getTotalGames(), u.getTotalHits(), u.getTotalMistakes())).collect(Collectors.toList());
+        return ranking.stream().map(u -> RankingResponse.builder()
+                .username(u.getUsername())
+                .totalGames(u.getTotalGames())
+                .totalHits(u.getTotalHits())
+                .totalMistakes(u.getTotalMistakes())
+                .build()
+        ).collect(Collectors.toList());
     }
 
     public User loadUserById(int userId) {

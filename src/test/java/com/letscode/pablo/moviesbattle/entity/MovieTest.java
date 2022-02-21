@@ -87,4 +87,30 @@ class MovieTest {
 
         assertNotEquals(movie, movie2);
     }
+
+    @Test
+    void testWinner() {
+        var movie2 = new Movie();
+        movie2.setId("rwerw");
+        movie2.setTitle(title);
+        movie2.setImdbRating(rating);
+        movie2.setImdbVotes(votes + 1);
+
+        var winner = movie2.isSelectedTheWinner("rwerw", movie);
+
+        assertTrue(winner);
+    }
+
+    @Test
+    void testLooser() {
+        var movie2 = new Movie();
+        movie2.setId("rwerw");
+        movie2.setTitle(title);
+        movie2.setImdbRating(rating);
+        movie2.setImdbVotes(votes - 1);
+
+        var winner = movie2.isSelectedTheWinner("rwerw", movie);
+
+        assertFalse(winner);
+    }
 }

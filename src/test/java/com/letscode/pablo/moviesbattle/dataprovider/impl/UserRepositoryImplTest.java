@@ -9,9 +9,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -67,6 +71,21 @@ class UserRepositoryImplTest {
         assertNotNull(userResponse);
         assertTrue(userResponse.isPresent());
         assertEquals(user.getUsername(), userResponse.get().getUsername());
+
+    }
+
+    @Test
+    void testLoadRanking() {
+        var user = new User();
+        user.setUsername("teste");
+        user.setPassword("123456");
+
+        when(userRepositoryJpa.loadRanking(eq(10))).thenReturn(List.of(user));
+
+        var userResponse = userRepository.loadRanking(10);
+
+        assertNotNull(userResponse);
+        assertEquals(1, userResponse.size());
 
     }
 }

@@ -24,6 +24,15 @@ class MovieResponseTest {
     }
 
     @Test
+    void testEmptyEquals() {
+        var movies1 = new MovieResponse();
+
+        var movies2 = new MovieResponse();
+
+        assertEquals(movies1, movies2);
+    }
+
+    @Test
     void testNotEquals() {
         var movies1 = MovieResponse.builder()
                 .imdbRating(10.5F)

@@ -6,10 +6,7 @@ import com.letscode.pablo.moviesbattle.entity.Game;
 import com.letscode.pablo.moviesbattle.entity.GameMovie;
 import com.letscode.pablo.moviesbattle.entity.Movie;
 import com.letscode.pablo.moviesbattle.entity.User;
-import com.letscode.pablo.moviesbattle.infrastructure.exception.GameAlreadyStartedException;
-import com.letscode.pablo.moviesbattle.infrastructure.exception.GameNotFoundException;
-import com.letscode.pablo.moviesbattle.infrastructure.exception.GameOverException;
-import com.letscode.pablo.moviesbattle.infrastructure.exception.MovieNotFoundException;
+import com.letscode.pablo.moviesbattle.infrastructure.exception.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -131,5 +128,100 @@ class GameServiceTest {
 
         assertNotNull(exception);
         assertTrue(exception.getMessage().contains("The user hasn't active games"));
+    }
+
+    @Test
+    void quizzResponseSuccessHit() throws MovieNotFoundException, WrongAnswerException, GameOverException, GameNotFoundException {
+        var movie = new Movie("dfsdfs", "dfsdfs", 10.5, 45);
+        var gameMovie = new GameMovie(1,  null, "dfsdfs", "fdfsd");
+        var gameMovieList = new ArrayList<GameMovie>();
+        gameMovieList.add(gameMovie);
+
+        var game = new Game(1, 1, new Date(), new Date(), 0, 0, gameMovieList);
+
+        when(gameRepository.getActiveGame(eq(1000))).thenReturn(Optional.of(game));
+        when(movieService.getMovieById(any())).thenReturn(movie);
+        doNothing().when(gameRepository).update(any());
+        doNothing().when(gameMovieRepository).delete(any());
+
+        var hit = gameService.quizzResponse(1000, gameMovie.getMovieA());
+
+        assertTrue(hit);
+    }
+
+    @Test
+    void quizzResponseSuccessMistake() throws MovieNotFoundException, WrongAnswerException, GameOverException, GameNotFoundException {
+        var movie = new Movie("dfsdfs", "dfsdfs", 10.5, 45);
+        var gameMovie = new GameMovie(1,  null, "dsadas", "dfsdfs");
+        var gameMovieList = new ArrayList<GameMovie>();
+        gameMovieList.add(gameMovie);
+
+        var game = new Game(1, 1, new Date(), new Date(), 0, 0, gameMovieList);
+
+        when(gameRepository.getActiveGame(eq(1000))).thenReturn(Optional.of(game));
+        when(movieService.getMovieById(any())).thenReturn(movie);
+        doNothing().when(gameRepository).update(any());
+        doNothing().when(gameMovieRepository).delete(any());
+
+        var hit = gameService.quizzResponse(1000, gameMovie.getMovieA());
+
+        assertFalse(hit);
+    }
+
+    @Test
+    void quizzResponseWrongAnswerException() throws MovieNotFoundException, GameOverException, GameNotFoundException {
+        var movie = new Movie("dfsdfs", "dfsdfs", 10.5, 45);
+        var gameMovie = new GameMovie(1,  null, "dsadas", "fdfsd");
+        var gameMovieList = new ArrayList<GameMovie>();
+        gameMovieList.add(gameMovie);
+
+        var game = new Game(1, 1, new Date(), new Date(), 0, 0, gameMovieList);
+
+        when(gameRepository.getActiveGame(eq(1000))).thenReturn(Optional.of(game));
+        when(movieService.getMovieById(any())).thenReturn(movie);
+        doNothing().when(gameRepository).update(any());
+        doNothing().when(gameMovieRepository).delete(any());
+
+        var exception = assertThrows(WrongAnswerException.class, () ->
+                gameService.quizzResponse(1000, "fsdfsdfs"));
+
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("Invalid response. Please select the movie id"));
+    }
+
+    @Test
+    void quizzResponseGameOverException()  {
+        var gameMovieList = new ArrayList<GameMovie>();
+
+        var game = new Game(1, 1, new Date(), new Date(), 0, 0, gameMovieList);
+
+        when(gameRepository.getActiveGame(eq(1000))).thenReturn(Optional.of(game));
+
+        var exception = assertThrows(GameOverException.class, () ->
+                gameService.quizzResponse(1000, "fsdfsdfs"));
+
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("Ther's no movies pairs. Please finalize the game."));
+    }
+
+    @Test
+    void quizzResponseGameNotFoundException()  {
+
+        when(gameRepository.getActiveGame(eq(1000))).thenReturn(Optional.empty());
+
+        var exception = assertThrows(GameNotFoundException.class, () ->
+                gameService.quizzResponse(1000, "fsdfsdfs"));
+
+        assertNotNull(exception);
+        assertTrue(exception.getMessage().contains("The user hasn't active games"));
+    }
+
+    @Test
+    void testLoadRanking() {
+        when(userService.ranking()).thenReturn(new ArrayList<>());
+
+        var ranking = gameService.loadRanking();
+
+        assertNotNull(ranking);
     }
 }

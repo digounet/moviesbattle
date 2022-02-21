@@ -88,8 +88,6 @@ class MovieServiceTest {
     void testGetRandomMovies() {
         var movies = movieService.pickNRandomElements();
 
-        assertEquals(2, movies.size());
-        assertNotEquals(movies.get(0), movies.get(1));
-
+        assertEquals(6, movies.size());
     }
 }

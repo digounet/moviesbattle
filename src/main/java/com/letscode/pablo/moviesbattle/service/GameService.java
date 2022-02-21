@@ -15,12 +15,17 @@ public class GameService {
     private GameRepository gameRepository;
 
     @Autowired
+    private MovieService movieService;
+
+    @Autowired
     private UserRepository userRepository;
 
     public Game startGame(int userId) throws GameAlreadyStartedException {
         var currentGame = gameRepository.getActiveGame(userId);
 
         if (currentGame.isEmpty()) {
+            var movies = movieService.pickNRandomElements();
+
             return gameRepository.startGame(userId);
         } else {
             throw new GameAlreadyStartedException("The user has an active game. Please finish the current game");

@@ -20,7 +20,8 @@ public class GameRepositoryImpl implements GameRepository {
         var game = new Game();
         game.setUserId(userId);
         game.setStartDate(new Date());
-        game.setScore(0);
+        game.setHits(0);
+        game.setMistakes(0);
         return gameRepository.save(game);
     }
 

@@ -25,7 +25,9 @@ public class Game {
 
     private Date endDate;
 
-    private Integer score;
+    private Integer hits;
+
+    private Integer mistakes;
 
     @OneToMany(mappedBy = "game")
     private List<GameMovie> movieList;

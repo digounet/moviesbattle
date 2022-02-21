@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class GameTest {
 
@@ -17,13 +17,14 @@ class GameTest {
     private final int USERID = 1;
     private final Date STARTDATE = new Date();
     private final Date ENDDATE = new Date();
-    private final int SCORE = 10;
+    private final int HITS = 10;
+    private final int MISTAKES = 2;
     private final List<GameMovie> MOVIES = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
         MOVIES.add(new GameMovie());
-        game = new Game(ID, USERID, STARTDATE, ENDDATE, SCORE, MOVIES);
+        game = new Game(ID, USERID, STARTDATE, ENDDATE, HITS, MISTAKES, MOVIES);
     }
 
     @Test
@@ -47,8 +48,13 @@ class GameTest {
     }
 
     @Test
-    void getScore() {
-        assertEquals(SCORE, game.getScore());
+    void getHits() {
+        assertEquals(HITS, game.getHits());
+    }
+
+    @Test
+    void getMistakes() {
+        assertEquals(MISTAKES, game.getMistakes());
     }
 
     @Test
@@ -87,8 +93,15 @@ class GameTest {
     @Test
     void setScore() {
         var change = 56;
-        game.setScore(change);
-        assertEquals(change, game.getScore());
+        game.setHits(change);
+        assertEquals(change, game.getHits());
+    }
+
+    @Test
+    void setMistakes() {
+        var change = 88;
+        game.setMistakes(change);
+        assertEquals(change, game.getMistakes());
     }
 
     @Test
@@ -100,14 +113,14 @@ class GameTest {
 
     @Test
     void testEquals() {
-        var game2 = new Game(ID, USERID, STARTDATE, ENDDATE, SCORE, MOVIES);
+        var game2 = new Game(ID, USERID, STARTDATE, ENDDATE, HITS, MISTAKES, MOVIES);
 
         assertEquals(game, game2);
     }
 
     @Test
     void testNotEquals() {
-        var game2 = new Game(7867, USERID, STARTDATE, ENDDATE, SCORE, MOVIES);
+        var game2 = new Game(7867, USERID, STARTDATE, ENDDATE, HITS, MISTAKES, MOVIES);
 
         assertNotEquals(game, game2);
     }

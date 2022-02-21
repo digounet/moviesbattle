@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 @Service
 public class MovieService {
@@ -48,21 +45,24 @@ public class MovieService {
         return movie.get();
     }
 
-    public List<String> pickNRandomElements() {
-        return pickNRandomElements(moviesIds, ThreadLocalRandom.current());
-    }
+    public List<Set<String>> pickNRandomElements() {
+        var response = new ArrayList<Set<String>>();
 
-    private <E> List<E> pickNRandomElements(List<E> list, Random r) {
-        final int MOVIES_NUMBER = 2;
+        Collections.shuffle(moviesIds);
 
-        int length = list.size();
+        var interation = 1;
+        for (int i = 0; i < moviesIds.size(); i++) {
+            for (int j = interation; j < moviesIds.size(); j++) {
+                var moviePair = new TreeSet<String>();
+                moviePair.add(moviesIds.get(i));
+                moviePair.add(moviesIds.get(j));
 
-        if (length < MOVIES_NUMBER) return null;
+                response.add(moviePair);
+            }
 
-        for (int i = length - 1; i >= length - MOVIES_NUMBER; --i) {
-            Collections.swap(list, i , r.nextInt(i + 1));
+            interation++;
         }
 
-        return list.subList(length - MOVIES_NUMBER, length);
+        return response;
     }
 }
